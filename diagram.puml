@@ -1,0 +1,76 @@
+@startuml
+
+skinparam linetype ortho
+
+abstract class AbstractMembre {
+
+}
+
+class MembreParticulier extends AbstractMembre {
+
+}
+
+class MembreEntreprise extends AbstractMembre {
+}
+
+class Employe {
+
+}
+
+class Directeur extends SousDirecteur{
+
+}
+
+class SousDirecteur extends Employe {
+}
+
+class Transaction {
+}
+
+class GestionnaireTransaction {
+}
+
+class Article {
+}
+
+class Facture {
+}
+
+class Registre {
+}
+
+enum TypePaiement{}
+
+enum StatutTransaction{}
+
+class Entreprise {}
+
+class PointDeVente {}
+
+class Inventaire {}
+
+class Paiement {}
+
+class PaiementCredit extends Paiement {}
+
+class PaiementCash extends Paiement {}
+
+class PaiementChque extends Paiement {}
+
+Entreprise *-- PointDeVente
+PointDeVente *-- Inventaire
+Inventaire *-- Article
+Entreprise *-- Directeur
+PointDeVente *-- SousDirecteur
+PointDeVente *-- Employe
+PointDeVente *-- Registre
+
+Registre *-- Transaction
+Transaction --> TypePaiement
+Transaction --> StatutTransaction
+Transaction *-- Facture
+Transaction *-- Paiement
+
+Entreprise *-- AbstractMembre
+
+@enduml
