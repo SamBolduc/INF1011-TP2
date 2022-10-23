@@ -3,74 +3,138 @@
 skinparam linetype ortho
 
 abstract class AbstractMembre {
-
+- string nom
+- string adresse
+- Date dateAdhésion
+- string codeCarteAdhésion
++ void AcheterArticle(Article, PointDeVente)
 }
 
-class MembreParticulier extends AbstractMembre {
-
+class MembreParticulier {
+- Date dateDeNaissance
+- string numCarteIdentite
 }
 
-class MembreEntreprise extends AbstractMembre {
+class MembreEntreprise {
+- string numEntreprise
+- string numRegistre
 }
 
-class Employe {
-
+class Employé {
+- string nomComplet
+- Date debutEmploi
++ void AjouterNouvelArticle(Article)
++ void ModifierArticle(Article)
++ void SupprimerArticle(Article)
 }
 
-class Directeur extends SousDirecteur{
-
+class SousDirecteur {
++ void AjouterEmployé(infos, PointDeVente)
++ void ModifierEmployé(Employé, infos)
++ void SupprimerEmployé(Employé)
 }
 
-class SousDirecteur extends Employe {
+class Directeur {
++ void AjouterPointDeVente(SousDirecteur)
++ void ModifierPointDeVente(PointDeVente, infos)
++ void SupprimerPointDeVente()
++ void ChangerSousDirecteur(PointDeVente, SousDirecteur)
 }
 
 class Transaction {
-}
-
-class GestionnaireTransaction {
+- int id
+- AbstractMembre acheteur
+- Date date
+- float prixTotal
 }
 
 class Article {
-}
-
-class Facture {
+- string id
+- string description
+- float prix
+- string taille
+- int quantite
 }
 
 class Registre {
+- List<Transaction> transactions
++ Transaction getTransactionById(idTransaction)
++ void NouvelleTransaction(AbstractMembre)
++ void AjouterArticle(Transaction, Article)
++ void ModifierArticle(Transaction, Article, infos)
++ void SupprimerArticle(Transaction, Article)
++ void ProcéderPaiement(Transaction)
++ void AnnulerTransaction(Transaction)
++ void SupprimerTransaction(Transaction)
++ void ArchiverTransaction(Transaction)
++ void ArchiverJournée()
++ void GénérerReçu(Transaction)
 }
 
-enum TypePaiement{}
+enum StatutTransaction{
+PAYÉ
+ATTENTE_PAIEMENT
+}
 
-enum StatutTransaction{}
+class Entreprise {
+- string nom
+- string numEntreprise
+- string numRegistre
+- List<AbstractMembre> membres
+- List<PointDeVente> pointDeVentes
++ AbstractMembre getMembreById(idMembre)
++ void AjouterNouveauMembre(infos)
++ void ModifierMembre(AbstractMembre, infos)
++ void SupprimerMembre(AbstractMembre)
++ void ActiverMembre(AbstractMembre)
++ void DésactiverMembre(AbstractMembre)
+}
 
-class Entreprise {}
+class PointDeVente {
+- string id
+- string adresse
+- List<Employé> employés
++ Employé getEmployéById(idEmployé)
++ double getTaxes()
++ boolean vérifierCarteMembre(codeCarteAdhésion)
++ void faireRemboursement(idTransaction)
+}
 
-class PointDeVente {}
+class Catalogue {
+- List<Article> articles
+}
 
-class Inventaire {}
+abstract class Paiement {}
 
-class Paiement {}
+class PaiementCredit {}
 
-class PaiementCredit extends Paiement {}
+class PaiementCash {}
 
-class PaiementCash extends Paiement {}
+class PaiementCheque {}
 
-class PaiementChque extends Paiement {}
+Employé <|-- SousDirecteur
+SousDirecteur <|-- Directeur
+
+Paiement <|-- PaiementCredit
+Paiement <|-- PaiementCash
+Paiement <|-- PaiementCheque
 
 Entreprise *-- PointDeVente
-PointDeVente *-- Inventaire
-Inventaire *-- Article
+Entreprise *--- Catalogue
+Catalogue *-- Article
 Entreprise *-- Directeur
 PointDeVente *-- SousDirecteur
-PointDeVente *-- Employe
+PointDeVente *-- Employé
 PointDeVente *-- Registre
 
 Registre *-- Transaction
-Transaction --> TypePaiement
-Transaction --> StatutTransaction
-Transaction *-- Facture
+Transaction <-- StatutTransaction
 Transaction *-- Paiement
+Transaction o- Article
 
-Entreprise *-- AbstractMembre
+AbstractMembre *-- Entreprise
+MembreParticulier<|-- AbstractMembre
+MembreEntreprise <|-- AbstractMembre
 
 @enduml
+
