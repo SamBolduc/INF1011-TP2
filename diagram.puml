@@ -46,6 +46,12 @@ class Transaction {
 - AbstractMembre acheteur
 - Date date
 - float prixTotal
++ float getPrixTotal()
++ AbstractMembre getAcheteur()
++ void AjouterArticle(Article)
++ void ModifierArticle(Article, infos)
++ void SupprimerArticle(Article)
++ void ProcéderPaiement()
 }
 
 class Article {
@@ -60,10 +66,6 @@ class Registre {
 - List<Transaction> transactions
 + Transaction getTransactionById(idTransaction)
 + void NouvelleTransaction(AbstractMembre)
-+ void AjouterArticle(Transaction, Article)
-+ void ModifierArticle(Transaction, Article, infos)
-+ void SupprimerArticle(Transaction, Article)
-+ void ProcéderPaiement(Transaction)
 + void AnnulerTransaction(Transaction)
 + void SupprimerTransaction(Transaction)
 + void ArchiverTransaction(Transaction)
