@@ -23,9 +23,6 @@ class MembreEntreprise {
 class Employé {
 - string nomComplet
 - Date debutEmploi
-+ void AjouterNouvelArticle(Article)
-+ void ModifierArticle(Article)
-+ void SupprimerArticle(Article)
 }
 
 class SousDirecteur {
