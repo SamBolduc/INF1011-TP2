@@ -45,8 +45,8 @@ class Transaction {
 - int id
 - AbstractMembre acheteur
 - Date date
-- float prixTotal
-+ float getPrixTotal()
+- Number prixTotal
++ Number getPrixTotal()
 + AbstractMembre getAcheteur()
 + void AjouterArticle(Article)
 + void ModifierArticle(Article, infos)
@@ -57,7 +57,7 @@ class Transaction {
 class Article {
 - string id
 - string description
-- float prix
+- Number prix
 - string taille
 - int quantite
 }
@@ -134,7 +134,7 @@ Transaction <-- StatutTransaction
 Transaction *-- Paiement
 Transaction o- Article
 
-AbstractMembre *-- Entreprise
+AbstractMembre --* Entreprise
 MembreParticulier<|-- AbstractMembre
 MembreEntreprise <|-- AbstractMembre
 
