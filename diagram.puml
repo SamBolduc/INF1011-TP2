@@ -7,7 +7,6 @@ abstract class AbstractMembre {
 - string adresse
 - Date dateAdhésion
 - string codeCarteAdhésion
-+ void AcheterArticle(Article, PointDeVente)
 }
 
 class MembreParticulier {
@@ -20,30 +19,33 @@ class MembreEntreprise {
 - string numRegistre
 }
 
+class RegistreEmploye{
+  + void AjouterEmployé(infos, PointDeVente)
+  + void ModifierEmployé(Employé, infos)
+  + void SupprimerEmployé(Employé)
+  + Employé getEmployéById(idEmployé)
+}
+
+
 class Employé {
 - string nomComplet
 - Date debutEmploi
 }
 
 class SousDirecteur {
-+ void AjouterEmployé(infos, PointDeVente)
-+ void ModifierEmployé(Employé, infos)
-+ void SupprimerEmployé(Employé)
+
 }
 
 class Directeur {
-+ void AjouterPointDeVente(SousDirecteur)
-+ void ModifierPointDeVente(PointDeVente, infos)
-+ void SupprimerPointDeVente()
-+ void ChangerSousDirecteur(PointDeVente, SousDirecteur)
+
 }
 
 class Transaction {
 - int id
 - AbstractMembre acheteur
 - Date date
-- Number prixTotal
-+ Number getPrixTotal()
+- Decimal prixTotal
++ Decimal getPrixTotal()
 + AbstractMembre getAcheteur()
 + void AjouterArticle(Article)
 + void ModifierArticle(Article, infos)
@@ -52,14 +54,14 @@ class Transaction {
 }
 
 class Article {
-- string id
-- string description
-- Number prix
-- string taille
-- int quantite
+  - string SKU
+  - string description
+  - Decimal prix
+  - string taille
+  - Map<PointDeVente,int> quantiteLocalisation
 }
 
-class Registre {
+class RegistreTransaction {
 - List<Transaction> transactions
 + Transaction getTransactionById(idTransaction)
 + void NouvelleTransaction(AbstractMembre)
@@ -87,20 +89,25 @@ class Entreprise {
 + void SupprimerMembre(AbstractMembre)
 + void ActiverMembre(AbstractMembre)
 + void DésactiverMembre(AbstractMembre)
++ void AjouterPointDeVente(SousDirecteur)
++ void ModifierPointDeVente(PointDeVente, infos)
++ void SupprimerPointDeVente()
+
 }
 
 class PointDeVente {
-- string id
-- string adresse
-- List<Employé> employés
-+ Employé getEmployéById(idEmployé)
-+ double getTaxes()
-+ boolean vérifierCarteMembre(codeCarteAdhésion)
-+ void faireRemboursement(idTransaction)
+  - string id
+  - string adresse
+  + void ChangerSousDirecteur(SousDirecteur)
+  + double getTaxes()
+  + boolean vérifierCarteMembre(codeCarteAdhésion)
+  + void faireRemboursement(idTransaction)
 }
 
-class Catalogue {
-- List<Article> articles
+class InventaireAdapter {
+  -List<Article> articles
+  +Article GetArticleBySKU(string)
+  +ReduireInventaire(Article,Quantite,PointDeVente)
 }
 
 abstract class Paiement {}
@@ -119,14 +126,15 @@ Paiement <|-- PaiementCash
 Paiement <|-- PaiementCheque
 
 Entreprise *-- PointDeVente
-Entreprise *--- Catalogue
-Catalogue *-- Article
+PointDeVente *-- RegistreEmploye
+Entreprise *--- InventaireAdapter
+InventaireAdapter *-- Article
 Entreprise *-- Directeur
 PointDeVente *-- SousDirecteur
-PointDeVente *-- Employé
-PointDeVente *-- Registre
+RegistreEmploye *-- Employé
+PointDeVente *-- RegistreTransaction
 
-Registre *-- Transaction
+RegistreTransaction *-- Transaction
 Transaction <-- StatutTransaction
 Transaction *-- Paiement
 Transaction o- Article
@@ -136,4 +144,5 @@ MembreParticulier<|-- AbstractMembre
 MembreEntreprise <|-- AbstractMembre
 
 @enduml
+
 
