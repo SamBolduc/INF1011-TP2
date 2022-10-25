@@ -44,8 +44,8 @@ class Transaction {
 - int id
 - AbstractMembre acheteur
 - Date date
-- Decimal prixTotal
-+ Decimal getPrixTotal()
+- Number prixTotal
++ Number getPrixTotal()
 + AbstractMembre getAcheteur()
 + void AjouterArticle(Article)
 + void ModifierArticle(Article, infos)
@@ -56,7 +56,7 @@ class Transaction {
 class Article {
   - string SKU
   - string description
-  - Decimal prix
+  - Number prix
   - string taille
   - Map<PointDeVente,int> quantiteLocalisation
 }
@@ -104,11 +104,14 @@ class PointDeVente {
   + void faireRemboursement(idTransaction)
 }
 
-class InventaireAdapter {
-  -List<Article> articles
+interface InventaireAdapter {
   +Article GetArticleBySKU(string)
   +ReduireInventaire(Article,Quantite,PointDeVente)
 }
+
+class Inventaire
+
+Inventaire ..|> InventaireAdapter
 
 abstract class Paiement {}
 
@@ -128,7 +131,7 @@ Paiement <|-- PaiementCheque
 Entreprise *-- PointDeVente
 PointDeVente *-- RegistreEmploye
 Entreprise *--- InventaireAdapter
-InventaireAdapter *-- Article
+InventaireAdapter --> Article
 Entreprise *-- Directeur
 PointDeVente *-- SousDirecteur
 RegistreEmploye *-- Employé
