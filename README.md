@@ -22,7 +22,12 @@ class Inventaire implements InventaireAdapter{
   }
   
   override Article GetArticleBySKU(string SKU){
-    return new Article(connection.queryArticle(SKU));
+    Article a = ResultToArticle(connection.queryArticle(SKU));
+    return a;
+  }
+  
+  private Article ResultToArticle(QueryResult r){
+    //Transforme un QueryResult en un Article
   }
   
   override void ReduireInventaire(Article a,int quantite, PointDeVente p){
