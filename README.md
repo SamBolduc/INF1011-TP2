@@ -7,7 +7,7 @@ L'interface entre le système externe de gestion d'inventaire et le programme es
 L'interface `InventaireAdapter` définit les méthodes nécessaires pour obtenir un article et mettre à jour l'inventaire après la vente d'un article. 
 Il suffit ensuite de fournir une implémentation au programme pour pouvoir interagir avec un système de gestion d'inventaire.
 
-```pseudocode
+```Java
 interface InventaireAdapter{
   Article GetArticleBySKU(string SKU);
   void ReduireInventaire(Article a,int quantite, PointDeVente p)
