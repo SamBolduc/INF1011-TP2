@@ -38,7 +38,8 @@ interface IVisitor {
 IVisitor -> PointDeVente
 IVisitor -> Transaction
 class ReportVisitor implements IVisitor {
-    -Logger logger
+    -int pointDeVenteCount
+    -int transactionCount
 }
 
 
