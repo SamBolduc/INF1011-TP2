@@ -26,6 +26,21 @@ class RegistreEmploye{
   + Employé getEmployéById(idEmployé)
 }
 
+interface IVisitable {
++void accept(IVisitor)
+}
+
+interface IVisitor {
+    +visitTransaction(Transaction)
+    +visitPointDeVente(PointDeVente)
+}
+
+IVisitor -> PointDeVente
+IVisitor -> Transaction
+class ReportVisitor implements IVisitor {
+    -Logger logger
+}
+
 
 class Employé {
 - string nomComplet
@@ -40,7 +55,7 @@ class Directeur {
 
 }
 
-class Transaction {
+class Transaction implements IVisitable{
 - int id
 - AbstractMembre acheteur
 - Date date
@@ -95,7 +110,7 @@ class Entreprise {
 
 }
 
-class PointDeVente {
+class PointDeVente implements IVisitable{
   - string id
   - string adresse
   + void ChangerSousDirecteur(SousDirecteur)
