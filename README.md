@@ -25,9 +25,8 @@ class Inventaire implements InventaireAdapter {
         connection = //...
     }
 
-    override Article
-
-    GetArticleBySKU(string SKU) {
+    @Override 
+    Article GetArticleBySKU(string SKU) {
         Article a = ResultToArticle(connection.queryArticle(SKU));
         return a;
     }
@@ -36,8 +35,7 @@ class Inventaire implements InventaireAdapter {
         //Transforme un QueryResult en un Article
     }
 
-    override
-
+    @Override
     void ReduireInventaire(Article a, int quantite, PointDeVente p) {
         connection.queryDecrementInventory(a.SKU, p.id, quantite);
     }
