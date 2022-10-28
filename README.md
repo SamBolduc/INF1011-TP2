@@ -207,3 +207,6 @@ public class Entreprise {
     }
 }
 ```
+
+## Références
+https://refactoring.guru/design-patterns/catalog
