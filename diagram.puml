@@ -1,5 +1,3 @@
-@startuml
-
 skinparam linetype ortho
 
 abstract class AbstractMembre {
@@ -56,7 +54,7 @@ class Directeur {
 
 }
 
-class Transaction implements IVisitable{
+class Transaction implements IVisitable , Iobservable {
 - int id
 - AbstractMembre acheteur
 - Date date
@@ -67,6 +65,9 @@ class Transaction implements IVisitable{
 + void ModifierArticle(Article, infos)
 + void SupprimerArticle(Article)
 + void ProcéderPaiement()
++add observateur (observateur)
++remove observateur (observateur)
++notify()
 }
 
 class Article {
@@ -77,7 +78,7 @@ class Article {
   - Map<PointDeVente,int> quantiteLocalisation
 }
 
-class RegistreTransaction {
+class RegistreTransaction implements Iobservator {
 - List<Transaction> transactions
 + Transaction getTransactionById(idTransaction)
 + void NouvelleTransaction(AbstractMembre)
@@ -86,6 +87,7 @@ class RegistreTransaction {
 + void ArchiverTransaction(Transaction)
 + void ArchiverJournée()
 + void GénérerReçu(Transaction)
++action(object Sender)
 }
 
 enum StatutTransaction{
@@ -125,7 +127,20 @@ interface InventaireAdapter {
   +ReduireInventaire(Article,Quantite,PointDeVente)
 }
 
+
 class Inventaire
+
+interface Iobservable {
++add observateur (observateur)
++remove observateur (observateur)
++notify(eventType, Data)
+}
+
+interface Iobservator {
++procederPaiement()
++action(object Sender) 
+}
+
 
 Inventaire ..|> InventaireAdapter
 
@@ -161,7 +176,3 @@ Transaction o- Article
 AbstractMembre --* Entreprise
 MembreParticulier<|-- AbstractMembre
 MembreEntreprise <|-- AbstractMembre
-
-@enduml
-
-
