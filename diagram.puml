@@ -21,7 +21,7 @@ class RegistreEmploye{
   + void AjouterEmployé(infos, PointDeVente)
   + void ModifierEmployé(Employé, infos)
   + void SupprimerEmployé(Employé)
-  + Employé getEmployéById(idEmployé)
+  + Employé GetEmployéById(idEmployé)
 }
 
 interface IVisitable {
@@ -54,20 +54,21 @@ class Directeur {
 
 }
 
-class Transaction implements IVisitable , Iobservable {
+class Transaction implements IVisitable {
 - int id
 - AbstractMembre acheteur
 - Date date
 - Number prixTotal
+- List<ISubscriber> subscribers
 + Number getPrixTotal()
 + AbstractMembre getAcheteur()
 + void AjouterArticle(Article)
 + void ModifierArticle(Article, infos)
 + void SupprimerArticle(Article)
 + void ProcéderPaiement()
-+add observateur (observateur)
-+remove observateur (observateur)
-+notify()
++ void AjouterSubscriber(ISubscriber)
++ void EnleverSubscriber(ISubscriber)
++ void NotifierSubscribers()
 }
 
 class Article {
@@ -78,7 +79,7 @@ class Article {
   - Map<PointDeVente,int> quantiteLocalisation
 }
 
-class RegistreTransaction implements Iobservator {
+class RegistreTransaction {
 - List<Transaction> transactions
 + Transaction getTransactionById(idTransaction)
 + void NouvelleTransaction(AbstractMembre)
@@ -87,7 +88,6 @@ class RegistreTransaction implements Iobservator {
 + void ArchiverTransaction(Transaction)
 + void ArchiverJournée()
 + void GénérerReçu(Transaction)
-+action(object Sender)
 }
 
 enum StatutTransaction{
@@ -117,9 +117,9 @@ class PointDeVente implements IVisitable{
   - string id
   - string adresse
   + void ChangerSousDirecteur(SousDirecteur)
-  + double getTaxes()
-  + boolean vérifierCarteMembre(codeCarteAdhésion)
-  + void faireRemboursement(idTransaction)
+  + double GetTaxes()
+  + boolean VérifierCarteMembre(codeCarteAdhésion)
+  + void FaireRemboursement(idTransaction)
 }
 
 interface InventaireAdapter {
@@ -130,17 +130,17 @@ interface InventaireAdapter {
 
 class Inventaire
 
-interface Iobservable {
-+add observateur (observateur)
-+remove observateur (observateur)
-+notify(eventType, Data)
+interface ISubscriber {
++ notifier(Transaction)
 }
 
-interface Iobservator {
-+procederPaiement()
-+action(object Sender) 
+class ReçuListener implements ISubscriber {
++ notifier(Transaction) 
 }
 
+class ArchivageListener implements ISubscriber {
++ notifier(Transaction) 
+}
 
 Inventaire ..|> InventaireAdapter
 
@@ -161,7 +161,7 @@ Paiement <|-- PaiementCheque
 
 Entreprise *-- PointDeVente
 PointDeVente *-- RegistreEmploye
-Entreprise *--- InventaireAdapter
+Entreprise *-- InventaireAdapter
 InventaireAdapter --> Article
 Entreprise *-- Directeur
 PointDeVente *-- SousDirecteur
@@ -176,3 +176,7 @@ Transaction o- Article
 AbstractMembre --* Entreprise
 MembreParticulier<|-- AbstractMembre
 MembreEntreprise <|-- AbstractMembre
+
+Transaction o- ISubscriber
+RegistreTransaction <.. ReçuListener
+RegistreTransaction <.. ArchivageListener
