@@ -14,7 +14,7 @@ d'inventaire.
 interface InventaireAdapter {
     Article GetArticleBySKU(string SKU);
 
-    void ReduireInventaire(Article a, int quantite, PointDeVente p)
+    void ReduireInventaire(Article a, int quantite, PointDeVente p);
 }
 
 class Inventaire implements InventaireAdapter {
@@ -22,7 +22,7 @@ class Inventaire implements InventaireAdapter {
 
     Inventaire(/*info necessaires pour se connecter au systeme de gestion d'inventaire*/) {
         //effectuer la connection
-        connection = //...
+        //...
     }
 
     @Override 
@@ -43,7 +43,7 @@ class Inventaire implements InventaireAdapter {
 
 class Entreprise {
     //...
-    InventaireAdapter inventaire = new Inventaire(/*info necessaires pour se connecter au systeme de gestion d'inventaire*/)
+    InventaireAdapter inventaire = new Inventaire(/*info necessaires pour se connecter au systeme de gestion d'inventaire*/);
     //...
 }
 ```
@@ -215,8 +215,60 @@ Ainsi, une `Transaction` possède deux observateurs (`ArchivageListener` et `Re�
 Ces deux observateurs déclenchent respectivement les méthodes `RegistreTransaction.ArchiverTransaction(Transaction)`(`ArchivageListener`) et `RegistreTransaction.GénérerReçu(Transaction)`(`ReçuListener`).
 
 #### Implémentation de l'observateur
-![Patron observateur](https://user-images.githubusercontent.com/49413363/198857018-97d915f7-4c1c-4596-ad0d-f65894797c67.png)
 
+```Java
+public class Transaction {
+    //...
+    private List<ISubscriber> subscribers;
+
+    //...
+
+    public void ProcederPaiement() {
+        //..
+        this.NotifierSubscribers();
+    }
+
+    public void ajouterSubscriber(ISubscriber subscriber) {
+        this.subscribers.add(subscriber);
+    }
+
+    public void EnleverSubscriber(ISubscriber subscriber) {
+        this.subscribers.remove(subscriber);
+    }
+
+    private void NotifierSubscribers() {
+        for (ISubscriber subscriber : this.subscribers) {
+            subscriber.update(this);
+        }
+    }
+}
+
+public interface ISubscriber {
+    void update(Transaction transaction);
+}
+
+public class ArchivageListener implements ISubscriber {
+    @java.lang.Override
+    public void update(Transaction transaction) {
+        this.ArchiverTransaction(transaction);
+    }
+
+    private void ArchiverTransaction(Transaction transaction){
+        //..
+    }
+}
+
+public class RecuListener implements ISubscriber {
+    @java.lang.Override
+    public void update(Transaction transaction) {
+        this.GenererRecu(transaction);
+    }
+    
+    private void GenererRecu(Transaction transaction){
+        //..
+    }
+}
+```
 
 
 

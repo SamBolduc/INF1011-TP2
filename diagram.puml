@@ -1,10 +1,12 @@
+@startuml
+
 skinparam linetype ortho
 
 abstract class AbstractMembre {
 - string nom
 - string adresse
-- Date dateAdhésion
-- string codeCarteAdhésion
+- Date dateAdhesion
+- string codeCarteAdhesion
 }
 
 class MembreParticulier {
@@ -18,10 +20,10 @@ class MembreEntreprise {
 }
 
 class RegistreEmploye{
-  + void AjouterEmployé(infos, PointDeVente)
-  + void ModifierEmployé(Employé, infos)
-  + void SupprimerEmployé(Employé)
-  + Employé GetEmployéById(idEmployé)
+  + void AjouterEmploye(infos, PointDeVente)
+  + void ModifierEmploye(Employe, infos)
+  + void SupprimerEmploye(Employe)
+  + Employe GetEmployeById(idEmploye)
 }
 
 interface IVisitable {
@@ -41,7 +43,7 @@ class ReportVisitor implements IVisitor {
 }
 
 
-class Employé {
+class Employe {
 - string nomComplet
 - Date debutEmploi
 }
@@ -60,12 +62,13 @@ class Transaction implements IVisitable {
 - Date date
 - Number prixTotal
 - List<ISubscriber> subscribers
+- List<Article> articles
 + Number getPrixTotal()
 + AbstractMembre getAcheteur()
 + void AjouterArticle(Article)
 + void ModifierArticle(Article, infos)
 + void SupprimerArticle(Article)
-+ void ProcéderPaiement()
++ void ProcederPaiement()
 + void AjouterSubscriber(ISubscriber)
 + void EnleverSubscriber(ISubscriber)
 + void NotifierSubscribers()
@@ -85,13 +88,11 @@ class RegistreTransaction {
 + void NouvelleTransaction(AbstractMembre)
 + void AnnulerTransaction(Transaction)
 + void SupprimerTransaction(Transaction)
-+ void ArchiverTransaction(Transaction)
-+ void ArchiverJournée()
-+ void GénérerReçu(Transaction)
++ void ArchiverJournee()
 }
 
 enum StatutTransaction{
-PAYÉ
+PAYE
 ATTENTE_PAIEMENT
 }
 
@@ -106,7 +107,7 @@ class Entreprise {
 + void ModifierMembre(AbstractMembre, infos)
 + void SupprimerMembre(AbstractMembre)
 + void ActiverMembre(AbstractMembre)
-+ void DésactiverMembre(AbstractMembre)
++ void DesactiverMembre(AbstractMembre)
 + void AjouterPointDeVente(SousDirecteur)
 + void ModifierPointDeVente(PointDeVente, infos)
 + void SupprimerPointDeVente()
@@ -118,7 +119,7 @@ class PointDeVente implements IVisitable{
   - string adresse
   + void ChangerSousDirecteur(SousDirecteur)
   + double GetTaxes()
-  + boolean VérifierCarteMembre(codeCarteAdhésion)
+  + boolean VerifierCarteMembre(codeCarteAdhesion)
   + void FaireRemboursement(idTransaction)
 }
 
@@ -131,15 +132,15 @@ interface InventaireAdapter {
 class Inventaire
 
 interface ISubscriber {
-+ notifier(Transaction)
++ update(Transaction)
 }
 
-class ReçuListener implements ISubscriber {
-+ notifier(Transaction) 
+class RecuListener implements ISubscriber {
+    - void GenererRecu(Transaction)
 }
 
 class ArchivageListener implements ISubscriber {
-+ notifier(Transaction) 
+    - void ArchiverTransaction(Transaction)
 }
 
 Inventaire ..|> InventaireAdapter
@@ -152,7 +153,7 @@ class PaiementCash {}
 
 class PaiementCheque {}
 
-Employé <|-- SousDirecteur
+Employe <|-- SousDirecteur
 SousDirecteur <|-- Directeur
 
 Paiement <|-- PaiementCredit
@@ -165,7 +166,7 @@ Entreprise *-- InventaireAdapter
 InventaireAdapter --> Article
 Entreprise *-- Directeur
 PointDeVente *-- SousDirecteur
-RegistreEmploye *-- Employé
+RegistreEmploye *-- Employe
 PointDeVente *-- RegistreTransaction
 
 RegistreTransaction *-- Transaction
@@ -178,4 +179,6 @@ MembreParticulier<|-- AbstractMembre
 MembreEntreprise <|-- AbstractMembre
 
 Transaction o- ISubscriber
-RegistreTransaction <.. ISubscriber
+
+
+@enduml
