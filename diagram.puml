@@ -178,5 +178,4 @@ MembreParticulier<|-- AbstractMembre
 MembreEntreprise <|-- AbstractMembre
 
 Transaction o- ISubscriber
-RegistreTransaction <.. ReçuListener
-RegistreTransaction <.. ArchivageListener
+RegistreTransaction <.. ISubscriber
