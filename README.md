@@ -208,5 +208,16 @@ public class Entreprise {
 }
 ```
 
+### Observateur
+Le patron de conception *Observateur* est appliqué au projet pour "automatiser" les tâches d'archivage et de génération de reçu lorsqu'une `Transaction` est terminée.
+
+Ainsi, une `Transaction` possède deux observateurs (`ArchivageListener` et `ReçuListener`) qui sont notifiés lorsque `Transaction.ProcéderPaiement()` est terminé (et que le paiement est valide et fait dans l'immédiat). 
+Ces deux observateurs déclenchent respectivement les méthodes `RegistreTransaction.ArchiverTransaction(Transaction)`(`ArchivageListener`) et `RegistreTransaction.GénérerReçu(Transaction)`(`ReçuListener`).
+
+#### Implémentation de l'observateur
+![observateur](https://user-images.githubusercontent.com/49413363/198856835-fb494b77-6230-445a-96cf-f8a8f116df4d.png)
+
+
+
 ## Références
 https://refactoring.guru/design-patterns/catalog
