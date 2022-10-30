@@ -215,7 +215,8 @@ Ainsi, une `Transaction` possède deux observateurs (`ArchivageListener` et `Re�
 Ces deux observateurs déclenchent respectivement les méthodes `RegistreTransaction.ArchiverTransaction(Transaction)`(`ArchivageListener`) et `RegistreTransaction.GénérerReçu(Transaction)`(`ReçuListener`).
 
 #### Implémentation de l'observateur
-![observateur](https://user-images.githubusercontent.com/49413363/198856835-fb494b77-6230-445a-96cf-f8a8f116df4d.png)
+![Patron observateur](https://user-images.githubusercontent.com/49413363/198857018-97d915f7-4c1c-4596-ad0d-f65894797c67.png)
+
 
 
 
