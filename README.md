@@ -43,7 +43,7 @@ class Inventaire implements InventaireAdapter {
 
 class Entreprise {
     //...
-    InventaireAdapter inventaire = new Inventaire(/*info necessaires pour se connecter au systeme de gestion d'inventaire*/);
+    InventaireAdapter inventaire = new Inventaire(/*infos pour connexion au systeme de gestion d'inventaire*/);
     //...
 }
 ```
@@ -60,7 +60,8 @@ Pour chaque registre, une seule instance existe dans le système et toute les de
 
 ```Java
 public class RegistreTransaction {
-    private static final RegistreTransaction instance; //Null par défaut, l'instance sera créée au premier appel de la méthode getInstance()
+    //Null par défaut, l'instance sera créée au premier appel de la méthode getInstance()
+    private static final RegistreTransaction instance; 
 
     private RegistreTransaction() {} //Le constructor privé empêche le développeur de créer une nouvelle instance.
 
@@ -105,7 +106,8 @@ public class RegistreTransaction {
 
 ```Java
 public class RegistreEmploye {
-    private static final RegistreEmploye instance; //Null par défaut, l'instance sera créée au premier appel de la méthode getInstance()
+    //Null par défaut, l'instance sera créée au premier appel de la méthode getInstance()
+    private static final RegistreEmploye instance; 
 
     private RegistreEmploye() {} //Le constructor privé empêche le développeur de créer une nouvelle instance.
 
