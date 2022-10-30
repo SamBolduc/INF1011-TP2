@@ -20,7 +20,7 @@ interface InventaireAdapter {
 class Inventaire implements InventaireAdapter {
     private ConnInv connection;
 
-    Inventaire(/*info necessaires pour se connecter au systeme de gestion d'inventaire*/) {
+    Inventaire(/*infos pour connexion à l'inventaire*/) {
         //effectuer la connection
         //...
     }
@@ -43,7 +43,7 @@ class Inventaire implements InventaireAdapter {
 
 class Entreprise {
     //...
-    InventaireAdapter inventaire = new Inventaire(/*infos pour connexion au systeme de gestion d'inventaire*/);
+    InventaireAdapter inventaire = new Inventaire(/*infos pour connexion à l'inventaire*/);
     //...
 }
 ```
@@ -63,7 +63,8 @@ public class RegistreTransaction {
     //Null par défaut, l'instance sera créée au premier appel de la méthode getInstance()
     private static final RegistreTransaction instance; 
 
-    private RegistreTransaction() {} //Le constructor privé empêche le développeur de créer une nouvelle instance.
+    //Le constructor privé empêche le développeur de créer une nouvelle instance.
+    private RegistreTransaction() {} 
 
     public static RegistreTransaction getInstance() {
         if (instance == null) instance = new RegistreTransaction();
@@ -109,7 +110,8 @@ public class RegistreEmploye {
     //Null par défaut, l'instance sera créée au premier appel de la méthode getInstance()
     private static final RegistreEmploye instance; 
 
-    private RegistreEmploye() {} //Le constructor privé empêche le développeur de créer une nouvelle instance.
+    //Le constructor privé empêche le développeur de créer une nouvelle instance.
+    private RegistreEmploye() {} 
 
     public static RegistreEmploye getInstance() {
         if (instance == null) instance = new RegistreEmploye();
